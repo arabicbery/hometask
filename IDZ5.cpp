@@ -9,7 +9,7 @@ using namespace std;
 
 void reversArray (int arr_ex[array_1]){   // for 5.1
 
- for (int i = 0; i < array_1; i++){
+    for (int i = 0; i < array_1; i++){
 
         if (arr_ex[i] == 0){
 
@@ -24,14 +24,14 @@ void reversArray (int arr_ex[array_1]){   // for 5.1
 
 void arrayRecFunction (int arr1_ex[array_2]){   // for 5.2
 
- for (int i =0; i < array_2; i++){
+    for (int i =0; i < array_2; i++){
 
- arr1_ex[i] = i*3 + 1;
+        arr1_ex[i] = i*3 + 1;
 
-    cout << arr1_ex[i] << " ";
+        cout << arr1_ex[i] << " ";
 
-}
-cout << endl;
+    }
+    cout << endl;
 }
 
 bool checkBalance (int *arr2, int sizeArray){  // for 5.3

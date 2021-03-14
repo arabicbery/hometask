@@ -1,103 +1,81 @@
 #include <iostream>
+#include <string>
+#include <fstream>
 
 using namespace std;
 
-#define array_1 10
-#define array_2 8
-#define array_3 5
-#define array_4 5
+int main(int argc, const char** argv) {
 
-void reversArray (int arr_ex[array_1]){   // for 5.1
+   //ex 6.1.
+   // Написать программу, которая создаст два текстовых файла,
+   // примерно по 50-100 символов в каждом (особого значения не имеет);
 
-    for (int i = 0; i < array_1; i++){
+   string firFileDir = "firFile.txt";
+   ofstream firstFile;
 
-        if (arr_ex[i] == 0){
+   firstFile.open(firFileDir);
+   firstFile << "On Tuesday I have to take the fifth laboratory work" << endl;
 
-            arr_ex[i] += 1;
+   firstFile.close();
 
-        } else arr_ex[i] -= 1;
+   string secFileDir = "secFile.txt";
+   ofstream secondFile;
 
-        cout <<  arr_ex[i] << " ";
-    }
-    cout << endl;
+   secondFile.open(secFileDir);
+   secondFile << "I'm not able to read the methodological instructions for laboratory work" << endl;
+
+   secondFile.close();
+
+   // ex 6.2
+   // Написать функцию, «склеивающую» эти файлы, предварительно буферизуя
+   // их содержимое в динамически выделенный сегмент памяти нужного размера.
+
+   char *buffer = new char[150];
+
+   ifstream fin;
+   fin.open(firFileDir);
+
+   ifstream fin2;
+   fin2.open(secFileDir);
+
+   ofstream f_out;
+   f_out.open("File.txt");
+
+   while (!fin.eof() && !fin2.eof()){
+       fin.getline(buffer, 150);
+       f_out << buffer << endl;
+   }
+   fin.close();
+
+   while (!fin2.eof()){
+       fin2.getline(buffer, 150);
+       f_out << buffer << endl;
+   }
+   fin2.close();
+
+   f_out.close();
+
+   // ex 6.3
+   // Написать программу, которая проверяет присутствует ли указанное пользователем при запуске программы
+   // слово в указанном пользователем файле (для простоты работаем только с латиницей).
+
+   ifstream fin3;
+   fin3.open("File.txt");
+
+   string message = "";
+
+   while (!fin3.eof()){            // я понимаю, что он считает по символам, а не по словам :(
+       message += fin3.get();      // не хватает мозгов, чтобы додумать правильную реализацию
+   }
+
+   int needMessage = message.find("ues");
+   if (needMessage != -1) {
+
+       cout << "There is" << endl;
+
+   } else cout << "There is none" << endl;
+
+   fin3.close();
+
+   return 0;
 }
-
-void arrayRecFunction (int arr1_ex[array_2]){   // for 5.2
-
-    for (int i =0; i < array_2; i++){
-
-        arr1_ex[i] = i*3 + 1;
-
-        cout << arr1_ex[i] << " ";
-
-    }
-    cout << endl;
-}
-
-bool checkBalance (int *arr2, int sizeArray){  // for 5.3
-
-    bool stateBalance = false;
-
-    int sumElements = 0;
-
-    for (int i = 0; i < sizeArray; i++){
-        sumElements += arr2[i];
-    }
-
-    int sumParts = 0;
-
-    for (int i = 0; i < sizeArray; i++){
-        sumParts += arr2[i];
-
-        if(sumParts == sumElements - sumParts){
-            stateBalance = true;
-            cout << arr2[i] << " <- point of balance";
-        }
-    } cout << endl; return stateBalance;
-}
-
-void displaceFunction (int *arr3, int n){  // for 5.4 (как сделать для отрицательного n не могу додуматься :(
-
-    for (int i = n + 1; i < array_4; i++){
-        cout << arr3[i] << " ";
-    }
-
-    for (int i = 0; i < array_4 - n; i++){
-        cout << arr3[i] << " ";
-    }
-}
-
-int main()
-{
-    // 5.1
-    // Задать целочисленный массив, состоящий из элементов 0 и 1. Например: [ 1, 1, 0, 0, 1, 0, 1, 1, 0, 0 ].
-    // Написать функцию, заменяющую в принятом массиве 0 на 1, 1 на 0
-
-    int arr[array_1] = {1,1,0,1,0,1,0,0,1,0};
-    reversArray(arr);
-
-    // 5.2
-    // Задать пустой целочисленный массив размером 8.
-    // Написать функцию, которая с помощью цикла заполнит его значениями 1 4 7 10 13 16 19 22;
-
-    int arr1[8];
-    arrayRecFunction(arr1);
-
-    // 5.3
-    // Написать функцию, в которую передается не пустой одномерный целочисленный массив,
-    // функция должна вернуть истину если в массиве есть место, в котором сумма левой и правой части массива равны.
-    // Примеры: checkBalance([1, 1, 1, || 2, 1]) → true, checkBalance ([2, 1, 1, 2, 1]) → false, checkBalance ([10, || 1, 2, 3, 4]) → true.
-
-    int arr2[5] = {10, 1, 2, 3, 4};
-    checkBalance(arr2, array_3);
-
-    // 5.4
-    // Написать функцию, которой на вход подаётся одномерный массив и число n (может быть положительным, или отрицательным),
-    // при этом функция должна циклически сместить все элементы массива на n позиций.
-
-    int arr3[array_4] = {1, 2, 3, 4, 5};
-    displaceFunction (arr3, 2);
-
-    return 0;
-}
-
